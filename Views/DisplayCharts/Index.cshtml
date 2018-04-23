@@ -1,0 +1,83 @@
+﻿@model H1B_Analysis_Project.Models.Company
+@{
+    ViewBag.Title = "Google Charts with MVC";
+}
+
+<h2>Index</h2>
+
+<!--Load the AJAX API-->
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+
+    // Load the Visualization API and the corechart package.
+    google.charts.load('current', { 'packages': ['corechart'] });
+
+    // Set a callback to run when the Google Visualization API is loaded.
+    google.charts.setOnLoadCallback(drawChart);
+
+    // Callback that creates and populates a data table,
+    // instantiates the pie chart, passes in the data and
+    // draws it.
+    function drawChart() {
+
+        // Create the data table.
+        var dataTable = new google.visualization.DataTable();
+        dataTable.addColumn('string', 'Company');
+        dataTable.addColumn('number', 'Petitions');
+        
+
+        // Set chart options
+        var options = {
+            'title': 'How Much Pizza I Ate Last Night',
+            'width': 800,
+            'height': 800
+        };
+
+        $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            async: false,
+            url: '@Url.Action("BarChart")',
+            data: '{}',
+            success: function (data) {
+                $.each(data, function (index, item) {
+                    dataTable.addRow([item.CompanyName, item.TotalPetitions])                    
+                });
+
+                chartData = data;
+            },
+            error: function () {
+                alert("Error loading data! Please try again.");
+            }
+        });
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+        chart.draw(dataTable, options);
+    }
+</script>
+
+<!--Div that will hold the pie chart-->
+<div id="chart_div"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
