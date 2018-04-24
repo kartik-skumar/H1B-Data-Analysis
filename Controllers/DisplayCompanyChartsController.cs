@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -14,10 +15,10 @@ namespace H1B_Analysis_Project.Controllers
             return View();
         }
 
-        public JsonResult BarChart()
+        public JsonResult StackedColumnChart()
         {
-            ReadJSONController readJSON = new ReadJSONController();
-            var chartsData = readJSON.ListData();
+            ReadCompanyJSONController readJSON = new ReadCompanyJSONController();            
+            var chartsData = readJSON.ListCompanyData();
             return Json(chartsData, JsonRequestBehavior.AllowGet);
         }
     }

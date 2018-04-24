@@ -1,4 +1,4 @@
-﻿@model IEnumerable<H1B_Analysis_Project.Models.Company>
+﻿@model IEnumerable<H1B_Analysis_Project.Models.Wage>
 
 @{
     ViewBag.Title = "Index";
@@ -12,19 +12,16 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.CompanyName)
+            @Html.DisplayNameFor(model => model.SOCName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Certified)
+            @Html.DisplayNameFor(model => model.WageIn2015)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Withdrawn)
+            @Html.DisplayNameFor(model => model.WageIn2016)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CertifiedWithdrawn)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Denied)
+            @Html.DisplayNameFor(model => model.TotalAverageWage)
         </th>
         <th></th>
     </tr>
@@ -32,19 +29,16 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.CompanyName)
+            @Html.DisplayFor(modelItem => item.SOCName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Certified)
+            @Html.DisplayFor(modelItem => item.WageIn2015)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Withdrawn)
+            @Html.DisplayFor(modelItem => item.WageIn2016)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.CertifiedWithdrawn)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Denied)
+            @Html.DisplayFor(modelItem => item.TotalAverageWage)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |

@@ -1,4 +1,4 @@
-﻿@model H1B_Analysis_Project.Models.Company
+﻿@model H1B_Analysis_Project.Models.Wage
 @{
     ViewBag.Title = "Google Charts with MVC";
 }
@@ -22,27 +22,21 @@
 
         // Create the data table.
         var dataTable = new google.visualization.DataTable();
-        dataTable.addColumn('string', 'Company');
-        dataTable.addColumn('number', 'Certified');
-        dataTable.addColumn('number', 'Withdrawn');
-        dataTable.addColumn('number', 'Certified_Withdrawn');
-        dataTable.addColumn('number', 'Denied');
-        
+        dataTable.addColumn('string', 'SOC Name');
+        dataTable.addColumn('number', 'Average Wage in 2015');
+        dataTable.addColumn('number', 'Average Wage in 2016');
+        dataTable.addColumn('number', 'Total Average Wage');
+
 
         // Set chart options
         var options = {
-            'title': 'Top 20 Companies petitioning for H1B Visas',
+            'title': 'Average Wages for top 4 categories of jobs in IT for H1B Petitioning',
             'width': 1000,
-            'hAxis': { minValue: 0 },
-            'explorer': {
-                actions: ['dragToZoom', 'rightClickToReset'],
-                axis: 'horizontal',
-                keepInBounds: true,
-                maxZoomIn: 50.0
-            },
+            'hAxis': { minValue: 0 },            
             'height': 600,
             'bar': { groupWidth: '50%' },
             'legend': { position: 'top', maxLines: 3 },
+            'pieSliceText': 'label',
             'isStacked': true
         };
 
@@ -51,11 +45,11 @@
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
             async: false,
-            url: '@Url.Action("StackedColumnChart")',
+            url: '@Url.Action("DonutChart")',
             data: '{}',
             success: function (data) {
                 $.each(data, function (index, item) {
-                    dataTable.addRow([item.CompanyName, item.Certified, item.Withdrawn, item.CertifiedWithdrawn, item.Denied])                    
+                    dataTable.addRow([item.SOCName, item.WageIn2015, item.WageIn2016, item.TotalAverageWage])
                 });
 
                 chartData = data;
@@ -66,7 +60,7 @@
         });
 
         // Instantiate and draw our chart, passing in some options.
-        var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
         chart.draw(dataTable, options);
     }
 </script>

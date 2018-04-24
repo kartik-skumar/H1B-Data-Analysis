@@ -1,4 +1,4 @@
-﻿@model H1B_Analysis_Project.Models.Company
+﻿@model H1B_Analysis_Project.Models.State
 @{
     ViewBag.Title = "Google Charts with MVC";
 }
@@ -9,9 +9,13 @@
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
 
-    // Load the Visualization API and the corechart package.
-    google.charts.load('current', { 'packages': ['corechart'] });
-
+    // Load the Visualization API and the corechart package.    
+    google.charts.load('current', {
+        'packages': ['geochart'],
+        // Note: you will need to get a mapsApiKey for your project.
+        // See: https://developers.google.com/chart/interactive/docs/basic_load_libs#load-settings
+        'mapsApiKey': 'AIzaSyChMjnxzF55JQ1KYorwIqLegqjxAsOz_Kw'
+    });
     // Set a callback to run when the Google Visualization API is loaded.
     google.charts.setOnLoadCallback(drawChart);
 
@@ -22,28 +26,22 @@
 
         // Create the data table.
         var dataTable = new google.visualization.DataTable();
-        dataTable.addColumn('string', 'Company');
-        dataTable.addColumn('number', 'Certified');
-        dataTable.addColumn('number', 'Withdrawn');
-        dataTable.addColumn('number', 'Certified_Withdrawn');
-        dataTable.addColumn('number', 'Denied');
-        
+        dataTable.addColumn('string', 'State');
+        dataTable.addColumn('number', 'Number of Certified Cases');
+        dataTable.addColumn('number', 'Average Wage');        
+
 
         // Set chart options
         var options = {
-            'title': 'Top 20 Companies petitioning for H1B Visas',
+            'title': 'Average Wages and Total Petitions filed by companies in all provinces',
+            'region': 'US',
+            'resolution': 'provinces',
             'width': 1000,
-            'hAxis': { minValue: 0 },
-            'explorer': {
-                actions: ['dragToZoom', 'rightClickToReset'],
-                axis: 'horizontal',
-                keepInBounds: true,
-                maxZoomIn: 50.0
-            },
             'height': 600,
-            'bar': { groupWidth: '50%' },
-            'legend': { position: 'top', maxLines: 3 },
-            'isStacked': true
+            'colorAxis': { colors: ['#00853f', 'black', '#e31b23'] },
+            'backgroundColor': '#81d4fa',
+            'datalessRegionColor': '#f8bbd0',
+            'defaultColor': '#f5f5f5'
         };
 
         $.ajax({
@@ -51,11 +49,11 @@
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
             async: false,
-            url: '@Url.Action("StackedColumnChart")',
+            url: '@Url.Action("GeoChart")',
             data: '{}',
             success: function (data) {
                 $.each(data, function (index, item) {
-                    dataTable.addRow([item.CompanyName, item.Certified, item.Withdrawn, item.CertifiedWithdrawn, item.Denied])                    
+                    dataTable.addRow([item.StateName, item.NumberOfCertifiedCases, item.AverageWage])
                 });
 
                 chartData = data;
@@ -66,7 +64,7 @@
         });
 
         // Instantiate and draw our chart, passing in some options.
-        var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+        var chart = new google.visualization.GeoChart(document.getElementById('chart_div'));
         chart.draw(dataTable, options);
     }
 </script>
