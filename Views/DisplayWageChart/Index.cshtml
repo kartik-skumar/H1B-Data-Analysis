@@ -1,10 +1,10 @@
 ﻿@model H1B_Analysis_Project.Models.Wage
 @{
-    ViewBag.Title = "Google Charts with MVC";
+    ViewBag.Title = "Average Wages";
 }
 
-<h2>Index</h2>
-
+<h2>Average Wages for top 4 categories of jobs in IT for H1B Petitioning</h2>
+<p></p>
 <!--Load the AJAX API-->
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
@@ -21,22 +21,40 @@
     function drawChart() {
 
         // Create the data table.
-        var dataTable = new google.visualization.DataTable();
-        dataTable.addColumn('string', 'SOC Name');
-        dataTable.addColumn('number', 'Average Wage in 2015');
-        dataTable.addColumn('number', 'Average Wage in 2016');
-        dataTable.addColumn('number', 'Total Average Wage');
+        var dataTable1 = new google.visualization.DataTable();
+        var dataTable2 = new google.visualization.DataTable();        
 
+        dataTable1.addColumn('string', 'SOC Name');
+        dataTable2.addColumn('string', 'SOC Name');
+        
+        dataTable1.addColumn('number', 'Average Wage in 2015');
+        dataTable2.addColumn('number', 'Average Wage in 2016');
+        
 
         // Set chart options
-        var options = {
-            'title': 'Average Wages for top 4 categories of jobs in IT for H1B Petitioning',
-            'width': 1000,
+        var options1 = {
+            'title': '2015',
+            'titleTextStyle': {color: 'black', fontName: 'Arial', fontSize: 16},
+            'width': 400,
             'hAxis': { minValue: 0 },            
-            'height': 600,
+            'height': 500,
             'bar': { groupWidth: '50%' },
             'legend': { position: 'top', maxLines: 3 },
-            'pieSliceText': 'label',
+            'pieSliceText': 'percentage',
+            'pieHole': 0.4,            
+            'isStacked': true
+        };
+        var options2 = {
+            'title': '2016',
+            'titleTextStyle': {color: 'black', fontName: 'Arial', fontSize: 16},
+            'titlePosition': 'out',
+            'width': 400,
+            'hAxis': { minValue: 0 },
+            'height': 500,
+            'bar': { groupWidth: '50%' },
+            'legend': { position: 'top', maxLines: 3 },
+            'pieSliceText': 'percentage',
+            'pieHole': 0.4,
             'isStacked': true
         };
 
@@ -49,7 +67,8 @@
             data: '{}',
             success: function (data) {
                 $.each(data, function (index, item) {
-                    dataTable.addRow([item.SOCName, item.WageIn2015, item.WageIn2016, item.TotalAverageWage])
+                    dataTable1.addRow([item.SOCName, item.WageIn2015])
+                    dataTable2.addRow([item.SOCName, item.WageIn2016])                    
                 });
 
                 chartData = data;
@@ -60,22 +79,20 @@
         });
 
         // Instantiate and draw our chart, passing in some options.
-        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-        chart.draw(dataTable, options);
+        var chart1 = new google.visualization.PieChart(document.getElementById('chart_div1'));
+        chart1.draw(dataTable1, options1);
+        var chart2 = new google.visualization.PieChart(document.getElementById('chart_div2'));
+        chart2.draw(dataTable2, options2);        
     }
 </script>
 
 <!--Div that will hold the pie chart-->
-<div id="chart_div"></div>
 
-
-
-
-
-
-
-
-
+<div class="col-md-12">
+    <div class="col-md-6" id="chart_div1"></div>
+    <div class="col-md-6" id="chart_div2"></div>    
+</div>
+    
 
 
 

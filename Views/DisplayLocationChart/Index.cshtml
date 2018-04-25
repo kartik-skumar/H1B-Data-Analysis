@@ -1,9 +1,9 @@
 ﻿@model H1B_Analysis_Project.Models.State
 @{
-    ViewBag.Title = "Google Charts with MVC";
+    ViewBag.Title = "Top Provinces";
 }
 
-<h2>Index</h2>
+<h2>Average Wages and Total Petitions filed by companies in all provinces</h2>
 
 <!--Load the AJAX API-->
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -25,24 +25,27 @@
     function drawChart() {
 
         // Create the data table.
-        var dataTable = new google.visualization.DataTable();
-        dataTable.addColumn('string', 'State');
-        dataTable.addColumn('number', 'Number of Certified Cases');
-        dataTable.addColumn('number', 'Average Wage');        
+        var dataTable1 = new google.visualization.DataTable();
+        dataTable1.addColumn('string', 'State');
+        dataTable1.addColumn('number', 'Number of Certified Cases');
 
+        var dataTable2 = new google.visualization.DataTable();
+        dataTable2.addColumn('string', 'State');
+        dataTable2.addColumn('number', 'Average Wage'); 
 
         // Set chart options
         var options = {
-            'title': 'Average Wages and Total Petitions filed by companies in all provinces',
+            'title': 'Certified Petitions',
             'region': 'US',
             'resolution': 'provinces',
-            'width': 1000,
-            'height': 600,
-            'colorAxis': { colors: ['#00853f', 'black', '#e31b23'] },
+            'width': 600,
+            'height': 500, 
+            'colorAxis': { colors: ['#ffe6ff', '#ff4dff', '#b300b3'] },
             'backgroundColor': '#81d4fa',
             'datalessRegionColor': '#f8bbd0',
             'defaultColor': '#f5f5f5'
         };
+    
 
         $.ajax({
             type: 'POST',
@@ -53,7 +56,8 @@
             data: '{}',
             success: function (data) {
                 $.each(data, function (index, item) {
-                    dataTable.addRow([item.StateName, item.NumberOfCertifiedCases, item.AverageWage])
+                    dataTable1.addRow([item.StateName, item.NumberOfCertifiedCases])
+                    dataTable2.addRow([item.StateName, item.AverageWage])
                 });
 
                 chartData = data;
@@ -64,13 +68,17 @@
         });
 
         // Instantiate and draw our chart, passing in some options.
-        var chart = new google.visualization.GeoChart(document.getElementById('chart_div'));
-        chart.draw(dataTable, options);
+        var chart1 = new google.visualization.GeoChart(document.getElementById('chart_div1'));
+        chart1.draw(dataTable1, options);
+
+        var chart2 = new google.visualization.GeoChart(document.getElementById('chart_div2'));
+        chart2.draw(dataTable2, options);
     }
 </script>
 
 <!--Div that will hold the pie chart-->
-<div id="chart_div"></div>
+<div class="col-md-6" id="chart_div1"></div>
+<div class="col-md-6" id="chart_div2"></div>
 
 
 
