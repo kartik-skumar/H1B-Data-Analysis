@@ -13,7 +13,7 @@ namespace H1B_Analysis_Project.Controllers
         {
             return View();
         }
-
+        // Fetch JSON result from the wage group list 
         public JsonResult ColumnChart()
         {
             ReadWageGroupJSONController readJSON = new ReadWageGroupJSONController();

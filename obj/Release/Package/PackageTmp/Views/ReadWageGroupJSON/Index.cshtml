@@ -1,0 +1,57 @@
+﻿@model IEnumerable<H1B_Analysis_Project.Models.WageGroup>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.WageRange)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Certified)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Withdrawn)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CertifiedWithdrawn)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Denied)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.WageRange)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Certified)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Withdrawn)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CertifiedWithdrawn)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Denied)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}
+
+</table>

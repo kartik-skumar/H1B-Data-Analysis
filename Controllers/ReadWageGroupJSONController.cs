@@ -7,6 +7,7 @@ using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Web;
+using System.Web.Hosting;
 using System.Web.Mvc;
 
 namespace H1B_Analysis_Project.Controllers
@@ -20,12 +21,12 @@ namespace H1B_Analysis_Project.Controllers
             return View(wageGroupList);
         }
 
-
+        // Create a list of JSON objects 
         public IEnumerable ListWageGroupData()
         {
             string wageGroupPath = ConfigurationManager.AppSettings["WageGroupLoc"];
             //get the Json filepath              
-            string file = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, wageGroupPath);
+            string file = HostingEnvironment.MapPath(@"~" + wageGroupPath);
             //deserialize JSON from file  
             string Json = System.IO.File.ReadAllText(file);
             var wagegrouplist = JsonConvert.DeserializeObject<List<WageGroup>>(Json); //ser.Deserialize<List<Company>>(Json);        

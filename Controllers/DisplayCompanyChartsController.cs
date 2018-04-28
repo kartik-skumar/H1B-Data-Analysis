@@ -14,7 +14,7 @@ namespace H1B_Analysis_Project.Controllers
         {
             return View();
         }
-
+        // Fetch JSON result from the company list 
         public JsonResult StackedColumnChart()
         {
             ReadCompanyJSONController readJSON = new ReadCompanyJSONController();            
